@@ -74,7 +74,10 @@
         const avatarImg = document.getElementById('user-avatar');
         avatarImg.src = '/static/img/avatars/' + filename;
         avatarImg.classList.add('avatar-active'); // Show the avatar
+
+        // Close selection and Open Lift immediately
         closeAvatarSelection();
+        openLift();
     }
 </script>
 {% endblock %}
