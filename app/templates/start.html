@@ -20,12 +20,21 @@
         <!-- Optional: "Call Lift" button or just "Enter"? User said "Eintreten" -->
         <button class="btn enter-btn" onclick="openLift()">EINTRETEN</button>
         <br><br>
-        <button class="btn enter-btn" style="font-size: 1rem; padding: 10px 20px;"
-            onclick="alert('Perspective changed!')">Change View</button>
+        <button class="btn enter-btn" style="font-size: 1rem; padding: 10px 20px;" onclick="toggleAvatar()">Change
+            View</button>
     </div>
+
+    <!-- Avatar Image -->
+    <img id="user-avatar" src="/static/img/avatar_standing.png" alt="User Avatar">
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script src="/static/js/door.js"></script>
+<script>
+    function toggleAvatar() {
+        const avatar = document.getElementById('user-avatar');
+        avatar.classList.toggle('avatar-active');
+    }
+</script>
 {% endblock %}
