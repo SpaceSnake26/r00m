@@ -75,7 +75,17 @@
 
     function selectAvatar(filename) {
         const avatarImg = document.getElementById('user-avatar');
-        avatarImg.src = '/static/img/avatars/' + filename;
+        // Convert 'avatar_X.ext' to 'full_body_X.png'
+        // Logic: Extract number
+        const match = filename.match(/avatar_(\d+)/);
+        if (match) {
+            const index = match[1];
+            avatarImg.src = '/static/img/bodies/full_body_' + index + '.png';
+        } else {
+            // Fallback
+            avatarImg.src = '/static/img/avatars/' + filename;
+        }
+
         avatarImg.classList.add('avatar-active'); // Show the avatar
 
         // Close selection and Open Lift immediately
