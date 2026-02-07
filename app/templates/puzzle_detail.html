@@ -5,7 +5,10 @@
     <div class="panel-glass">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
             <h2>PROTOCOL {{ puzzle.id }}</h2>
-            <a href="/lift" style="font-size:0.8rem; color:#aaa;">&lt; BACK</a>
+            <div style="display:flex; gap:10px;">
+                <a href="/reset" class="btn" style="font-size:0.8rem; background:#800000;">RESET</a>
+                <a href="/lift" style="font-size:0.8rem; color:#aaa;">&lt; BACK</a>
+            </div>
         </div>
 
         <p style="margin-bottom:20px; color:#ccc;">{{ puzzle.description }}</p>
