@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+python-dotenv
+itsdangerous
+jinja2
+python-multipart
+qrcode[pil]

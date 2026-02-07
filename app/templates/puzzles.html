@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div style="text-align:center; margin-bottom: 20px;">
+    <h2>SICHERHEITSPROTOKOLLE</h2>
+    <p>Wähle eine Aufgabe.</p>
+</div>
+
+<div class="puzzle-grid">
+    {% for p in puzzles %}
+    <div class="puzzle-card" onclick="location.href='/puzzles/{{ p.id }}'">
+        <div style="font-size: 2rem; color: #333; margin-bottom:10px;">{{ p.id }}</div>
+        <h3>{{ p.name }}</h3>
+        <p style="font-size: 0.8rem; color: #666; margin-top:5px;">{{ p.description }}</p>
+    </div>
+    {% endfor %}
+</div>
+
+<div style="margin-top: 30px;">
+    <a href="/room" style="color: #666; font-size: 0.8rem;">&lt; Zurück</a>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  r00m:
+    build: .
+    container_name: r00m_app
+    ports:
+      - "8000:8000"
+    environment:
+      - WIFI_SSID=Room5012
+      - WIFI_PASSWORD=mancave5012
+      - DEBUG=false
+      - SECRET_KEY=prod_key_change_me
+    restart: unless-stopped

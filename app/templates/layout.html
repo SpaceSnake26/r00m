@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>r00m</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/mancave.css">
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    <div class="status-bar">
+        <span>R00M://5012</span>
+        <span id="status-text">ONLINE</span>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <script src="/static/js/app.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

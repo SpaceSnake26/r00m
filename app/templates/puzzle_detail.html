@@ -1,0 +1,130 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="lift-interior">
+    <div class="panel-glass">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2>PROTOCOL {{ puzzle.id }}</h2>
+            <a href="/lift" style="font-size:0.8rem; color:#aaa;">&lt; BACK</a>
+        </div>
+
+        <p style="margin-bottom:20px; color:#ccc;">{{ puzzle.description }}</p>
+        <div id="puzzle-error" style="color: red; margin-bottom: 10px; min-height: 1.2em; text-align:center;"></div>
+
+        <!-- Embed the specific puzzle UI chunks here (copied/adapted from previous) -->
+        <div class="active-puzzle-ui" style="background:transparent; border:none; padding:0;">
+            <!-- PUZZLE 1: PATTERN -->
+            {% if puzzle.id == 1 %}
+            <div id="p1-container">
+                <div style="display:grid; grid-template-columns:repeat(5, 1fr); gap:5px; margin-bottom:10px;">
+                    {% for row in ['A','B','C','D','E'] %}
+                    {% for col in range(1, 6) %}
+                    <button class="btn p1-btn" data-val="{{ row }}{{ col }}" style="padding:10px;">{{ row }}{{ col
+                        }}</button>
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+                <input type="text" id="p1-input" readonly
+                    style="width:100%; background:rgba(0,0,0,0.5); color:white; border:1px solid #555; padding:10px; margin-bottom:10px;">
+                <div style="display:flex; gap:10px;">
+                    <button class="btn" onclick="clearP1()">Reset</button>
+                    <button class="btn" onclick="submitP1()">Senden</button>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- PUZZLE 2: CIPHER -->
+            {% if puzzle.id == 2 %}
+            <div id="p2-container" style="text-align:center;">
+                <h1
+                    style="letter-spacing: 5px; color: var(--door-red-light); margin: 20px 0; text-shadow:0 0 10px red;">
+                    A B Q Z &nbsp; F T Q &nbsp; D A A Y</h1>
+                <p style="color:#aaa; font-size:0.8rem;">(Hinweis: Key = 12)</p>
+                <input type="text" id="p2-input" placeholder="KLARTEXT"
+                    style="width:100%; background:rgba(0,0,0,0.5); color:white; border:1px solid #555; padding:10px; margin:20px 0; text-transform:uppercase;">
+                <button class="btn" onclick="submitGeneric('p2-input')">DECRYPT</button>
+            </div>
+            {% endif %}
+
+            <!-- PUZZLE 3: SWITCHES -->
+            {% if puzzle.id == 3 %}
+            <div id="p3-container" style="text-align:center;">
+                <div style="display:flex; justify-content:center; gap:20px; margin:30px 0;">
+                    {% for i in range(4) %}
+                    <div id="sw-{{i}}" class="switch-box" onclick="toggleSwitch({{i}})"
+                        style="width:50px; height:80px; border:2px solid #555; background:rgba(0,0,0,0.5); display:flex; align-items:flex-end; justify-content:center; cursor:pointer;">
+                        <div class="bulb" style="width:100%; height:10px; background:#333;"></div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="btn" onclick="resetSwitches()">Reset</button>
+                <button class="btn" onclick="submitSwitches()">Connect</button>
+            </div>
+            <style>
+                .switch-on {
+                    border-color: red !important;
+                    box-shadow: 0 0 10px red;
+                }
+
+                .switch-on .bulb {
+                    background: red !important;
+                }
+            </style>
+            {% endif %}
+
+            <!-- PUZZLE 4: TERMINAL -->
+            {% if puzzle.id == 4 %}
+            <div id="p4-container" style="font-family: monospace; text-align:left;">
+                <div id="term-output"
+                    style="height:200px; overflow-y:auto; border:1px solid #555; background:rgba(0,0,0,0.8); padding:10px; color:#0f0; font-size:0.9rem; margin-bottom:10px;">
+                    <div>r00mOS v1.0.3</div>
+                    <div>Type 'help' for commands.</div>
+                </div>
+                <div style="display:flex;">
+                    <span style="padding:10px 5px 10px 0;">></span>
+                    <input type="text" id="term-input"
+                        style="flex:1; background:transparent; border:none; color:white; font-family:monospace; outline:none;"
+                        autofocus>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- PUZZLE 5: SUDOKU -->
+            {% if puzzle.id == 5 %}
+            <style>
+                .sudoku-cell {
+                    width: 40px;
+                    height: 40px;
+                    text-align: center;
+                    background: rgba(0, 0, 0, 0.5);
+                    border: 1px solid #555;
+                    color: #fff;
+                }
+
+                .sudoku-cell:disabled {
+                    background: rgba(255, 255, 255, 0.1);
+                    font-weight: bold;
+                }
+            </style>
+            <div id="p5-container" style="display:flex; flex-direction:column; align-items:center;">
+                <div
+                    style="display:grid; grid-template-columns:repeat(4, 1fr); gap:5px; margin-bottom:20px; width:200px;">
+                    {% set prefill = {'0':1, '7':2, '10':4, '13':3} %}
+                    {% for i in range(16) %}
+                    {% if i|string in prefill %}
+                    <input type="number" class="sudoku-cell" value="{{ prefill[i|string] }}" disabled>
+                    {% else %}
+                    <input type="number" class="sudoku-cell" data-idx="{{i}}" min="1" max="4">
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <button class="btn" onclick="submitSudoku()">Verify Integrity</button>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>const PUZZLE_ID = {{ puzzle.id }};</script>
+<script src="/static/js/puzzles.js"></script>
+{% endblock %}

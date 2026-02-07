@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Outer World: Just the Doors -->
+<div class="door-container perspective-container">
+    <div class="door-wrapper" id="door-wrapper">
+        <div class="lift-door door-left"></div>
+        <div class="lift-door door-right"></div>
+        <div class="door-gap"></div>
+    </div>
+
+    <div class="overlay-ui">
+        <!-- Optional: "Call Lift" button or just "Enter"? User said "Eintreten" -->
+        <button class="btn enter-btn" onclick="openLift()">EINTRETEN</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/door.js"></script>
+{% endblock %}

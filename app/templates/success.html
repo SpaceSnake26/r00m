@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="mancave-container">
+    <!-- Background Image (Generated) -->
+    <!-- Note: In production, ensure this file exists in static/img/ -->
+    <img src="/static/img/mancave_room.png" class="mancave-bg" alt="Mancave Room">
+
+    <div class="wifi-overlay">
+        <h1 style="color: #0f0; margin-bottom: 10px; letter-spacing: 2px;">ACCESS GRANTED</h1>
+        <h2 style="color: #fff; font-weight: normal; font-size: 1.2rem; margin-bottom: 20px;">WELCOME TO ROOM 5012</h2>
+
+        <div style="display:flex; gap:20px; align-items:center; justify-content:center; flex-wrap:wrap;">
+            <div id="qr-container" style="background:white; padding:10px; border-radius:5px;">
+                <div style="width:120px; height:120px; background-color:#ccc;"></div>
+            </div>
+
+            <div class="wifi-info" style="text-align:left;">
+                <div class="wifi-field">SSID: <span class="wifi-value">{{ ssid }}</span></div>
+                <div class="wifi-field">PASS: <span class="wifi-value" id="pass">{{ password }}</span></div>
+                <button class="btn" onclick="copyPass()" style="margin-top:10px; width:100%;">Copy Password</button>
+            </div>
+        </div>
+
+        <div class="items-list">
+            <span class="item-icon">🛋️ Couch</span>
+            <span class="item-icon">📺 TV</span>
+            <span class="item-icon">🎷 Sax</span>
+            <span class="item-icon">🎸 Guitar</span>
+            <span class="item-icon">🍸 Bar</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    async function loadQR() {
+        try {
+            const res = await fetch('/api/qrcode');
+            if (res.ok) {
+                const data = await res.json();
+                const img = document.createElement('img');
+                img.src = data.image_data;
+                img.style.width = "100%";
+                const cont = document.getElementById('qr-container');
+                cont.innerHTML = "";
+                cont.appendChild(img);
+            }
+        } catch (e) { }
+    }
+
+    function copyPass() {
+        const pass = document.getElementById('pass').textContent;
+        navigator.clipboard.writeText(pass);
+        const btn = document.querySelector('button');
+        const orig = btn.innerText;
+        btn.innerText = "COPIED!";
+        setTimeout(() => btn.innerText = orig, 2000);
+    }
+
+    loadQR();
+</script>
+{% endblock %}

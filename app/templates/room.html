@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="mancave-container">
+    <!-- Using generated Mancave background -->
+    <img src="/static/img/mancave_room.png" class="mancave-bg" alt="Mancave Room">
+
+    <div class="wifi-overlay">
+        <h1 style="color: #0f0; margin-bottom: 0px; letter-spacing: 2px;">ACCESS GRANTED</h1>
+        <h3 style="color: #aaa; margin-bottom: 20px;">ROOM 5012</h3>
+
+        <div
+            style="display:flex; gap:20px; align-items:center; justify-content:center; flex-wrap:wrap; text-align:left;">
+            <div id="qr-container" style="background:white; padding:10px; border-radius:5px;"></div>
+
+            <div class="wifi-info">
+                <div class="wifi-field">SSID: <span class="wifi-value">{{ ssid }}</span></div>
+                <div class="wifi-field">PASS: <span class="wifi-value" id="pass">{{ password }}</span></div>
+                <button class="btn" onclick="copyPass()"
+                    style="margin-top:10px; width:100%; border-color:white; color:white;">COPY PASSWORD</button>
+            </div>
+        </div>
+
+        <!-- Optional return/reset for demo -->
+        <a href="/reset" style="display:inline-block; margin-top:20px; font-size:0.7rem; color:#555;">[RESET
+            SESSION]</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    async function loadQR() {
+        try {
+            const res = await fetch('/api/qrcode');
+            if (res.ok) {
+                const data = await res.json();
+                const img = document.createElement('img');
+                img.src = data.image_data;
+                img.style.width = "120px";
+                img.style.height = "120px"; // Fixed size
+                const cont = document.getElementById('qr-container');
+                cont.innerHTML = "";
+                cont.appendChild(img);
+            }
+        } catch (e) { }
+    }
+
+    function copyPass() {
+        const pass = document.getElementById('pass').innerText;
+        navigator.clipboard.writeText(pass);
+        alert("Passwort kopiert.");
+    }
+
+    loadQR();
+</script>
+{% endblock %}
